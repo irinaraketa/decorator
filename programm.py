@@ -17,9 +17,11 @@ class RedBlack:
         self.game_box = self.red_numbers + self.black_numbers + self.green_numbers
         self.bet = bet
         self.user_number = self.__from_color_index_to_number(user_color_index)
+
     def start_game(self):
         self.__shuffle_game_box()
         self.game_number = self.__generate_number()
+
     def get_prize_color_bet(self):
         if (self.game_number in self.red_numbers and \
             self.user_number in self.red_numbers) or \
@@ -30,16 +32,20 @@ class RedBlack:
             self.user_number in self.green_numbers:
             return self.bet * 14
         return -self.bet
+
     def check_correct_index_color(function):
         def wrapper(self, user_color_index, *args, **kwargs):
             if user_color_index not in range(0, 3):
                 raise NotCorrectColorIndex("Введите корректный индекс цвета")
             return function(self, user_color_index, *args, **kwargs)
         return wrapper
+
     def __shuffle_game_box(self):
         return random.shuffle(self.game_box)
+
     def __generate_number(self):
         return random.sample(self.game_box, 1)[0]
+
     @check_correct_index_color
     def __from_color_index_to_number(self, user_color_index):
         if user_color_index == 1:
@@ -79,10 +85,10 @@ class GameInteface:
                 numbers = self.game.game_box[game_number_index: game_number_index + 20]
             for index, number in enumerate(numbers, 1):
                 print(f"{number}\n", end='')
-                # time.sleep(.1 + index/25)
-                
+                time.sleep(.1 + index/25)
             return function(self, *args, **kwargs)
         return wrapper
+
     @drop_effect
     def game_result_information(self):
         if self.game.game_number in self.game.red_numbers:
@@ -91,6 +97,7 @@ class GameInteface:
             print(f"Выпало чёрное -- {self.game.game_number}")
         else:
             print(f"Выпало зелёное -- {self.game.game_number}")
+
     def checking_winning(self):
         game_result = self.game.get_prize_color_bet()
         if game_result < 0:
