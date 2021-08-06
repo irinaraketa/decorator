@@ -1,0 +1,23 @@
+[
+    {
+        "username": "111",
+        "user_bank": 0,
+        "user_bet": 500,
+        "user_color_word": "Крсное",
+        "prize": -500
+    },
+    {
+        "username": "111",
+        "user_bank": 1300,
+        "user_bet": 300,
+        "user_color_word": "Крсное",
+        "prize": 600
+    },
+    {
+        "username": "111",
+        "user_bank": 1600,
+        "user_bet": 300,
+        "user_color_word": "Черное",
+        "prize": 600
+    }
+]
