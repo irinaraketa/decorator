@@ -78,8 +78,8 @@ class GameInteface:
         except ValueError:
             print('Введите число')
             return 0
-        if user_bet < 300:
-            print('Минимальная ставка 300')
+        if user_bet > 300:
+            print('Максимаольная ставка 300')
             return 0
         elif user_bet > user.bank:
             print('У вас нет такой суммы')
@@ -152,7 +152,8 @@ class User:
 
 print("Добро пожаловать в игру")
 username = input("Введите ваш ник: ")
-while True:
+flag = True
+while flag:
     try:
         user_bank = int(input("Ваш банк: "))
     except ValueError:
@@ -183,10 +184,7 @@ while True:
     print(f"Ваш банк -- {user.bank}")
     User.writing_user_statistics()
     GameInteface.writing_game_statistics()
-    if user.bank >= 300:
-        print('Хотите испытать удачу?\n1.Да,я рискну\n2.Нет,прервать игру')
-        flag = input() == '1'
-    else:
-        print('К сожалению, у вас недостаточно денег')
-        break
+    print('Хотите испытать удачу?\n1.Да,я рискну\n2.Нет,прервать игру')
+    flag = input() == '1'
+
     

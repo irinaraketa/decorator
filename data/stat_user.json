@@ -201,5 +201,19 @@
         "user_bet": 500,
         "user_color_word": "Крсное",
         "prize": 0
+    },
+    {
+        "username": "111",
+        "user_bank": 990,
+        "user_bet": 10,
+        "user_color_word": "Крсное",
+        "prize": 0
+    },
+    {
+        "username": "111",
+        "user_bank": 970,
+        "user_bet": 30,
+        "user_color_word": "Крсное",
+        "prize": 0
     }
 ]
