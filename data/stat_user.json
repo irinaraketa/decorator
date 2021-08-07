@@ -26,5 +26,159 @@
         "user_bet": 500,
         "user_color_word": "Крсное",
         "prize": -500
+    },
+    {
+        "username": "111",
+        "user_bank": 1500,
+        "user_bet": 500,
+        "user_color_word": "Крсное",
+        "prize": 1000
+    },
+    {
+        "username": "111",
+        "user_bank": 1000,
+        "user_bet": 500,
+        "user_color_word": "Крсное",
+        "prize": 500
+    },
+    {
+        "username": "111",
+        "user_bank": 1000,
+        "user_bet": 500,
+        "user_color_word": "Крсное",
+        "prize": 500
+    },
+    {
+        "username": "111",
+        "user_bank": 1000,
+        "user_bet": 500,
+        "user_color_word": "Крсное",
+        "prize": 500
+    },
+    {
+        "username": "111",
+        "user_bank": 0,
+        "user_bet": 500,
+        "user_color_word": "Крсное",
+        "prize": -500
+    },
+    {
+        "username": "111",
+        "user_bank": 1500,
+        "user_bet": 500,
+        "user_color_word": "Крсное",
+        "prize": 1000
+    },
+    {
+        "username": "111",
+        "user_bank": 1500,
+        "user_bet": 500,
+        "user_color_word": "Крсное",
+        "prize": 1000
+    },
+    {
+        "username": "111",
+        "user_bank": 1500,
+        "user_bet": 500,
+        "user_color_word": "Крсное",
+        "prize": 1000
+    },
+    {
+        "username": "111",
+        "user_bank": 2000,
+        "user_bet": 500,
+        "user_color_word": "Черное",
+        "prize": 1000
+    },
+    {
+        "username": "111",
+        "user_bank": 4000,
+        "user_bet": 2000,
+        "user_color_word": "Крсное",
+        "prize": 4000
+    },
+    {
+        "username": "111",
+        "user_bank": 1300,
+        "user_bet": 300,
+        "user_color_word": "Крсное",
+        "prize": 600
+    },
+    {
+        "username": "111",
+        "user_bank": 1000,
+        "user_bet": 500,
+        "user_color_word": "Черное",
+        "prize": 500
+    },
+    {
+        "username": "111",
+        "user_bank": 1500,
+        "user_bet": 500,
+        "user_color_word": "Крсное",
+        "prize": 1000
+    },
+    {
+        "username": "111",
+        "user_bank": 1500,
+        "user_bet": 500,
+        "user_color_word": "Черное",
+        "prize": 1000
+    },
+    {
+        "username": "111",
+        "user_bank": 3000,
+        "user_bet": 1500,
+        "user_color_word": "Крсное",
+        "prize": 3000
+    },
+    {
+        "username": "111",
+        "user_bank": 3000,
+        "user_bet": 3000,
+        "user_color_word": "Крсное",
+        "prize": 3000
+    },
+    {
+        "username": "111",
+        "user_bank": 3000,
+        "user_bet": 3000,
+        "user_color_word": "Зеденое",
+        "prize": 3000
+    },
+    {
+        "username": "111",
+        "user_bank": 1000,
+        "user_bet": 500,
+        "user_color_word": "Зеденое",
+        "prize": 500
+    },
+    {
+        "username": "111",
+        "user_bank": 1000,
+        "user_bet": 1000,
+        "user_color_word": "Зеденое",
+        "prize": 1000
+    },
+    {
+        "username": "111",
+        "user_bank": 1500,
+        "user_bet": 500,
+        "user_color_word": "Крсное",
+        "prize": 1000
+    },
+    {
+        "username": "111",
+        "user_bank": 1500,
+        "user_bet": 1500,
+        "user_color_word": "Зеденое",
+        "prize": 1500
+    },
+    {
+        "username": "111",
+        "user_bank": 1500,
+        "user_bet": 1500,
+        "user_color_word": "Зеденое",
+        "prize": 1500
     }
 ]

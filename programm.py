@@ -31,7 +31,7 @@ class RedBlack:
         elif self.game_number in self.green_numbers and \
             self.user_number in self.green_numbers:
             return self.bet * 14
-        return -self.bet
+        return self.bet
 
     def check_correct_index_color(function):
         def wrapper(self, user_color_index, *args, **kwargs):
@@ -72,8 +72,19 @@ class GameInteface:
             json.dump(data, json_file, ensure_ascii=False, indent=4)
 
     @staticmethod
-    def is_bid_amount_correct():
-        return user_bet >= 300 and user_bet <= user.bank
+    def checking_correctness_of_bid():
+        try:
+            user_bet = int(user_bet_temp)
+        except ValueError:
+            print('Введите число')
+            return 0
+        if user_bet < 300:
+            print('Минимальная ставка 300')
+            return 0
+        elif user_bet > user.bank:
+            print('У вас нет такой суммы')
+            return 0
+        return user_bet
 
     def drop_effect(function):
         def wrapper(self, *args, **kwargs):
@@ -145,10 +156,10 @@ user_bank = int(input("Ваш банк: "))
 user = User({"username": username, "bank": user_bank})
 flag = True
 while flag and user.bank > 0:
-    user_bet = int(input("Введите вашу ставку: "))
-    if not GameInteface.is_bid_amount_correct():
-        print('Нельзя сделать такую ставку')
-        break
+    user_bet_temp = input("Введите вашу ставку: ")
+    user_bet = GameInteface.checking_correctness_of_bid()
+    if not user_bet:
+        continue
     print("0. Зелёное\n1. Красное\n2. Чёрное")
     try:
         user_color_choice = int(input("Цвет (выберете цифрой): "))
