@@ -31,7 +31,7 @@ class RedBlack:
         elif self.game_number in self.green_numbers and \
             self.user_number in self.green_numbers:
             return self.bet * 14
-        return self.bet
+        return 0
 
     def check_correct_index_color(function):
         def wrapper(self, user_color_index, *args, **kwargs):
@@ -152,10 +152,16 @@ class User:
 
 print("Добро пожаловать в игру")
 username = input("Введите ваш ник: ")
-user_bank = int(input("Ваш банк: "))
-user = User({"username": username, "bank": user_bank})
-flag = True
-while flag and user.bank > 0:
+while True:
+    try:
+        user_bank = int(input("Ваш банк: "))
+    except ValueError:
+        print('Введите число')
+        continue
+    user = User({"username": username, "bank": user_bank})
+    if user.bank <= 0:
+        print("ваш банк не может быть отрицательным или нулевым")
+        continue
     user_bet_temp = input("Введите вашу ставку: ")
     user_bet = GameInteface.checking_correctness_of_bid()
     if not user_bet:
@@ -181,6 +187,6 @@ while flag and user.bank > 0:
         print('Хотите испытать удачу?\n1.Да,я рискну\n2.Нет,прервать игру')
         flag = input() == '1'
     else:
-        print('К сожалению, у вас кончились деньги')
+        print('К сожалению, у вас недостаточно денег')
         break
     
