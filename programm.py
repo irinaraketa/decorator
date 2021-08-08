@@ -3,6 +3,7 @@ import random
 import time
 import json
 import os
+import inspect
 from exceptions import NotCorrectColorIndex
 
 DIR = os.path.dirname(os.path.abspath(__file__))
@@ -119,6 +120,7 @@ class GameInteface:
 class User:
     def __init__(self, user_hash):
         self.username = user_hash["username"]
+        self.userpassword = user_hash["userpassword"]
         self.bank = user_hash["bank"]
 
     @staticmethod
@@ -144,16 +146,61 @@ class User:
                   as json_file:
             json.dump(data, json_file, ensure_ascii=False, indent=4)
 
+    @staticmethod
+    def load_users():
+        users = []
+        if os.path.isfile(PATH_DATA + "users.json"):
+            with open(PATH_DATA + "users.json", "r", encoding="utf-8") \
+                      as read_file:
+                data = json.load(read_file)
+            for user_hash in data:
+                new_user = User(user_hash)
+                users.append(new_user)
+        return users
+
     def print_bank(self):
         print(f"Ваш банк -- {self.bank}")
 
     def update_user_bank(self, bet):
         return self.bank + bet
 
+    def user_registration(self, username, userpassword, users):
+        for user in users:
+            if user.username == username:
+                return 'Такой пользователь уже зарегистрирован'
+        users.append({"username": username, \
+                      "userpassword": userpassword})
+        with open(PATH_DATA + "users.json", "w", encoding="utf-8") \
+                  as json_file:
+            json.dump(data, json_file, ensure_ascii=False, indent=4)
+        return 'Пользователь успешно добавлен'
+
 print("Добро пожаловать в игру")
-username = input("Введите ваш ник: ")
 flag = True
 while flag:
+    print(inspect.cleandoc('''Что желаете (введите номер пункта):
+                           1. Заренгистрироваться
+                           2. Авторизироваьться
+                           3. Выйти из программы
+                           '''))
+    user_choice = input()
+    if user_choice == '1':  # Регистрация
+        username = input("Введите ваш ник: ")
+        userpassword = input('Введите ваш пароль: ')
+        users = User.load_users()
+        User.user_registration(username, userpassword, users)
+        continue
+    elif user_choice == '2':  # Авторизация
+        users = User.load_users()
+        User.user_authorization()
+        continue
+    elif user_choice == '3':  # Выход из программы
+        flag = False
+        continue
+    else:
+        print('Такого варианта не предусмотррено')
+        continue
+    username = input("Введите ваш ник: ")
     try:
         user_bank = int(input("Ваш банк: "))
     except ValueError:
@@ -186,5 +233,4 @@ while flag:
     GameInteface.writing_game_statistics()
     print('Хотите испытать удачу?\n1.Да,я рискну\n2.Нет,прервать игру')
     flag = input() == '1'
-
     
