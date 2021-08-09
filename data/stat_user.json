@@ -222,5 +222,12 @@
         "user_bet": 20,
         "user_color_word": "Крсное",
         "prize": 0
+    },
+    {
+        "username": "us",
+        "user_bank": 980,
+        "user_bet": 20,
+        "user_color_word": "Черное",
+        "prize": 0
     }
 ]

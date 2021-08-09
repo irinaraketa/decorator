@@ -157,20 +157,6 @@ class User:
                 users.append(user_hash)
         return users
 
-    @check_correct_password
-    @check_correct_username
-    @staticmethod
-    def user_registration(username, userpassword, users):
-        for user in users:
-            if user['username'] == username:
-                return 'Такой пользователь уже зарегистрирован'
-        users.append({"username": username, \
-                      "userpassword": userpassword})
-        with open(PATH_DATA + "users.json", "w", encoding="utf-8") \
-                  as json_file:
-            json.dump(users, json_file, ensure_ascii=False, indent=4)
-        return 'Пользователь успешно добавлен'
-
     def check_correct_password(function):
         def wrapper(self, userpassword, *args, **kwargs):
             if len(userpassword) < 8:
@@ -193,6 +179,20 @@ class User:
                                            содержать цифр")
             return function(self, username, *args, **kwargs)
         return wrapper
+
+    # @check_correct_password
+    # @check_correct_username
+    @staticmethod
+    def user_registration(username, userpassword, users):
+        for user in users:
+            if user['username'] == username:
+                return 'Такой пользователь уже зарегистрирован'
+        users.append({"username": username, \
+                      "userpassword": userpassword})
+        with open(PATH_DATA + "users.json", "w", encoding="utf-8") \
+                  as json_file:
+            json.dump(users, json_file, ensure_ascii=False, indent=4)
+        return 'Пользователь успешно добавлен'
 
     def user_authorization(username, userpassword, users):
         for user in users:
