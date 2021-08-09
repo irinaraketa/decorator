@@ -183,10 +183,14 @@ class User:
         def wrapper(self, username, *args, **kwargs):
             if not username.startswith('@'):
                 raise NotCorrectColorIndex("Ник должен начинаться с @")
+            flag = False  # В пароле нет цифр
             for i in username:
                 if i in '0123456789':
-                    raise NotCorrectColorIndex("Ник не должен \
-                                               содержать цифр")
+                    flag = True
+                    break
+            if flag:
+                raise NotCorrectColorIndex("Ник не должен \
+                                           содержать цифр")
             return function(self, username, *args, **kwargs)
         return wrapper
 
