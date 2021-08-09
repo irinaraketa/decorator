@@ -158,6 +158,7 @@ class User:
         return users
 
     @check_correct_password
+    @check_correct_username
     @staticmethod
     def user_registration(username, userpassword, users):
         for user in users:
@@ -176,6 +177,17 @@ class User:
                 raise NotCorrectColorIndex("Минимальнвя длина пароля \
                                            8 символов")
             return function(self, userpassword, *args, **kwargs)
+        return wrapper
+
+    def check_correct_username(function):
+        def wrapper(self, username, *args, **kwargs):
+            if not username.startswith('@'):
+                raise NotCorrectColorIndex("Ник должен начинаться с @")
+            for i in username:
+                if i in '0123456789':
+                    raise NotCorrectColorIndex("Ник не должен \
+                                               содержать цифр")
+            return function(self, username, *args, **kwargs)
         return wrapper
 
     def user_authorization(username, userpassword, users):
