@@ -3,6 +3,7 @@ import random
 import time
 import json
 import os
+import inspect
 from exceptions import NotCorrectColorIndex
 
 DIR = os.path.dirname(os.path.abspath(__file__))
@@ -119,6 +120,7 @@ class GameInteface:
 class User:
     def __init__(self, user_hash):
         self.username = user_hash["username"]
+        self.userpassword = user_hash["userpassword"]
         self.bank = user_hash["bank"]
 
     @staticmethod
@@ -144,22 +146,88 @@ class User:
                   as json_file:
             json.dump(data, json_file, ensure_ascii=False, indent=4)
 
+    @staticmethod
+    def load_users():
+        users = []
+        if os.path.isfile(PATH_DATA + "users.json"):
+            with open(PATH_DATA + "users.json", "r", encoding="utf-8") \
+                      as read_file:
+                data = json.load(read_file)
+            for user_hash in data:
+                users.append(user_hash)
+        return users
+
+    @staticmethod
+    def user_registration(username, userpassword, users):
+        for user in users:
+            if user['username'] == username:
+                return 'Такой пользователь уже зарегистрирован'
+        users.append({"username": username, \
+                      "userpassword": userpassword})
+        with open(PATH_DATA + "users.json", "w", encoding="utf-8") \
+                  as json_file:
+            json.dump(users, json_file, ensure_ascii=False, indent=4)
+        return 'Пользователь успешно добавлен'
+
+    def user_authorization(username, userpassword, users):
+        for user in users:
+            if user['username'] == username and \
+               user['userpassword'] == userpassword:
+                return True
+        return False
+
     def print_bank(self):
         print(f"Ваш банк -- {self.bank}")
 
     def update_user_bank(self, bet):
         return self.bank + bet
 
+    def add_bonus(function):
+        def wrapper(self, add_bank, *args, **kwargs):
+            if add_bank > 1000:
+                add_bank +=100
+            return function(self, add_bank, *args, **kwargs)
+        return wrapper
+
+    @add_bonus
+    def adding_money_to_bank(self, add_bank):
+        return self.bank + add_bank
+
 print("Добро пожаловать в игру")
-username = input("Введите ваш ник: ")
 flag = True
 while flag:
+    print(inspect.cleandoc('''Что желаете (введите номер пункта):
+                           1. Зарегистрироваться
+                           2. Авторизироваться
+                           3. Выйти из программы
+                           '''))
+    user_choice = input()
+    if user_choice == '1':  # Регистрация
+        username = input("Введите ваш ник: ")
+        userpassword = input('Введите ваш пароль: ')
+        users = User.load_users()
+        print(User.user_registration(username, userpassword, users))
+        continue
+    elif user_choice == '2':  # Авторизация
+        username = input("Введите ваш ник: ")
+        userpassword = input('Введите ваш пароль: ')
+        users = User.load_users()
+        if not User.user_authorization(username, userpassword, users):
+            print('Ошибка в имени или пароле пользователя')
+            continue
+    elif user_choice == '3':  # Выход из программы
+        flag = False
+        continue
+    else:
+        print('Такого варианта не предусмотррено')
+        continue
     try:
         user_bank = int(input("Ваш банк: "))
     except ValueError:
         print('Введите число')
         continue
-    user = User({"username": username, "bank": user_bank})
+    user = User({"username": username, "userpassword": userpassword, 
+                 "bank": user_bank})
     if user.bank <= 0:
         print("ваш банк не может быть отрицательным или нулевым")
         continue
@@ -186,5 +254,13 @@ while flag:
     GameInteface.writing_game_statistics()
     print('Хотите испытать удачу?\n1.Да,я рискну\n2.Нет,прервать игру')
     flag = input() == '1'
+    print('Хотите добавить денег в банк?\n1.Да\n2.Нет')
+    if input() == '1':
+        try:
+            add_bank = int(input('Введите сумму: '))
+        except ValueError:
+            print('Введите число')
+            continue
+        user.bank = user.adding_money_to_bank(add_bank)
+        user.print_bank()
 
-    
