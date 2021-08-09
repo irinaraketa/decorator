@@ -157,6 +157,7 @@ class User:
                 users.append(user_hash)
         return users
 
+    @check_correct_password
     @staticmethod
     def user_registration(username, userpassword, users):
         for user in users:
@@ -168,6 +169,14 @@ class User:
                   as json_file:
             json.dump(users, json_file, ensure_ascii=False, indent=4)
         return 'Пользователь успешно добавлен'
+
+    def check_correct_password(function):
+        def wrapper(self, userpassword, *args, **kwargs):
+            if len(userpassword) < 8:
+                raise NotCorrectColorIndex("Минимальнвя длина пароля \
+                                           8 символов")
+            return function(self, userpassword, *args, **kwargs)
+        return wrapper
 
     def user_authorization(username, userpassword, users):
         for user in users:
