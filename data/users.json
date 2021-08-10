@@ -14,5 +14,9 @@
     {
         "username": "us2",
         "userpassword": "11"
+    },
+    {
+        "username": "@us",
+        "userpassword": "11"
     }
 ]

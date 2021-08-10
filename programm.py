@@ -148,14 +148,11 @@ class User:
 
     @staticmethod
     def load_users():
-        users = []
         if os.path.isfile(PATH_DATA + "users.json"):
             with open(PATH_DATA + "users.json", "r", encoding="utf-8") \
                       as read_file:
                 data = json.load(read_file)
-            for user_hash in data:
-                users.append(user_hash)
-        return users
+        return [user_hash for user_hash in data]
 
     def check_correct_password(function):
         def wrapper(self, userpassword, *args, **kwargs):
@@ -180,8 +177,8 @@ class User:
             return function(self, username, *args, **kwargs)
         return wrapper
 
-    # @check_correct_password
-    # @check_correct_username
+    @check_correct_password
+    @check_correct_username
     @staticmethod
     def user_registration(username, userpassword, users):
         for user in users:
