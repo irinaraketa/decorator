@@ -23,6 +23,16 @@ class RedBlack:
         self.__shuffle_game_box()
         self.game_number = self.__generate_number()
 
+    def bonus(function):
+        def wrapper(self, *args, **kwargs):
+            if game_version =='1' and \
+               self.game_number == user_number_choice:
+                return function(self, *args, **kwargs) * 30
+            else:
+                return function(self, *args, **kwargs)
+        return wrapper
+
+    @bonus
     def get_prize_color_bet(self):
         if (self.game_number in self.red_numbers and \
             self.user_number in self.red_numbers) or \
@@ -263,6 +273,19 @@ while flag:
     except ValueError:
         print('Введите число')
         continue
+    print('Хотите поставить на число?\n1.Да\n2.Нет')
+    game_version = input()
+    if game_version =='1':
+        try:
+            if user_color_choice == 1:
+                user_number_choice = int(input('Введите число от 1 до 50:'))
+            elif user_color_choice == 2:
+                user_number_choice = int(input('Введите число от 51 до 100:'))
+            else:
+                user_number_choice == 0
+        except ValueError:
+            print('Введите число')
+            continue
     user.bank -= user_bet
     game = RedBlack(user_color_choice, user_bet)
     game.start_game()
@@ -285,4 +308,3 @@ while flag:
             continue
         user.bank = user.adding_money_to_bank(add_bank)
         user.print_bank()
-
