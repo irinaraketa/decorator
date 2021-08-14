@@ -165,15 +165,15 @@ class User:
         return [user_hash for user_hash in data]
 
     def check_correct_password(function):
-        def wrapper(self, userpassword, *args, **kwargs):
+        def wrapper(self, username, userpassword, users):
             if len(userpassword) < 8:
                 raise NotCorrectColorIndex("Минимальнвя длина пароля \
                                            8 символов")
-            return function(self, userpassword, *args, **kwargs)
+            return function(self, username, userpassword, users)
         return wrapper
-
+    
     def check_correct_username(function):
-        def wrapper(self, username, *args, **kwargs):
+        def wrapper(self, username, userpassword, users):
             if not username.startswith('@'):
                 raise NotCorrectColorIndex("Ник должен начинаться с @")
             flag = False  # В пароле нет цифр
@@ -184,7 +184,7 @@ class User:
             if flag:
                 raise NotCorrectColorIndex("Ник не должен \
                                            содержать цифр")
-            return function(self, username, *args, **kwargs)
+            return function(self, username, userpassword, users)
         return wrapper
 
     @check_correct_password
@@ -229,10 +229,10 @@ print("Добро пожаловать в игру")
 flag = True
 while flag:
     print(inspect.cleandoc('''Что желаете (введите номер пункта):
-                           1. Зарегистрироваться
-                           2. Авторизироваться
-                           3. Выйти из программы
-                           '''))
+                        1. Зарегистрироваться
+                        2. Авторизироваться
+                        3. Выйти из программы
+                        '''))
     user_choice = input()
     if user_choice == '1':  # Регистрация
         username = input("Введите ваш ник: ")
@@ -249,17 +249,19 @@ while flag:
             continue
     elif user_choice == '3':  # Выход из программы
         flag = False
-        continue
+        break
     else:
         print('Такого варианта не предусмотррено')
         continue
     try:
         user_bank = int(input("Ваш банк: "))
+        break
     except ValueError:
         print('Введите число')
         continue
+while flag:
     user = User({"username": username, "userpassword": userpassword, 
-                 "bank": user_bank})
+                "bank": user_bank})
     if user.bank <= 0:
         print("ваш банк не может быть отрицательным или нулевым")
         continue
