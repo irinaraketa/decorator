@@ -23,16 +23,6 @@ class RedBlack:
         self.__shuffle_game_box()
         self.game_number = self.__generate_number()
 
-    def bonus(function):
-        def wrapper(self, *args, **kwargs):
-            if game_version =='1' and \
-               self.game_number == user_number_choice:
-                return function(self, *args, **kwargs) * 30
-            else:
-                return function(self, *args, **kwargs)
-        return wrapper
-
-    @bonus
     def get_prize_color_bet(self):
         if (self.game_number in self.red_numbers and \
             self.user_number in self.red_numbers) or \
@@ -64,6 +54,26 @@ class RedBlack:
         elif user_color_index == 2:
             return random.sample(self.black_numbers, 1)[0]
         return 0
+
+class Number:
+    def __init__(self, user_number_index, bet):
+        self.bet = bet
+        self.user_number_index = user_number_index
+
+    def start_game(self):
+        self.__shuffle_game_box()
+        self.game_number = self.__generate_number()
+
+    def get_prize_number_bet(self):
+        if self.game_number == user_number_choice:
+            return self.bet * 30
+        return 0
+
+    def __shuffle_game_box(self):
+        return random.shuffle(self.game_box)
+
+    def __generate_number(self):
+        return random.sample(self.game_box, 1)[0]
 
 class GameInteface:
     def __init__(self, game):
@@ -269,27 +279,28 @@ while flag:
     user_bet = GameInteface.checking_correctness_of_bid()
     if not user_bet:
         continue
-    print("0. Зелёное\n1. Красное\n2. Чёрное")
-    try:
-        user_color_choice = int(input("Цвет (выберете цифрой): "))
-    except ValueError:
-        print('Введите число')
-        continue
-    print('Хотите поставить на число?\n1.Да\n2.Нет')
-    game_version = input()
-    if game_version =='1':
+    user.bank -= user_bet
+    game_version = input(print('Поставите на\n1. Цвет\n2. Число'))
+    if game_version == '1':
+        print("0. Зелёное\n1. Красное\n2. Чёрное")
         try:
-            if user_color_choice == 1:
-                user_number_choice = int(input('Введите число от 1 до 50:'))
-            elif user_color_choice == 2:
-                user_number_choice = int(input('Введите число от 51 до 100:'))
-            else:
-                user_number_choice == 0
+            user_color_choice = int(input("Цвет (выберете цифрой): "))
         except ValueError:
             print('Введите число')
             continue
-    user.bank -= user_bet
-    game = RedBlack(user_color_choice, user_bet)
+    elif game_version == '2':
+        try:
+            user_number_choice = int(input('Введите число от 1 до 100:'))
+        except ValueError:
+            print('Введите число')
+            continue
+    else:
+        print('Такой игры нет')
+        break
+    if game_version == '1':  # Цвет
+        game = RedBlack(user_color_choice, user_bet)
+    else:  # Число
+        game = Number(user_number_choice, user_bet)
     game.start_game()
     prize = game.get_prize_color_bet()
     console = GameInteface(game)
